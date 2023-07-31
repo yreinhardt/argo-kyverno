@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: kyverno-project
+  namespace: argocd
+  # Enable cascading deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for kyverno app of app pattern
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'

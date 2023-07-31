@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kyverno-app
+  namespace: argocd
+    finalizers:
+      - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: kyverno
+    # Reference cluster (in-cluster)
+    server: https://kubernetes.default.svc 
+  project: kyverno-project
+  source:
+    # Specify path to your application configs
+    path: kyverno/argocd/policies
+    repoURL: git@github.com:yreinhardt/argo-kyverno.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - Validate=true
+      - CreateNamespace=true
+      - PrunePropagationPolicy=foreground
+      - PruneLast=true
