@@ -3,8 +3,8 @@ kind: Application
 metadata:
   name: kyverno-app
   namespace: argocd
-    finalizers:
-      - resources-finalizer.argocd.argoproj.io
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
     namespace: kyverno
@@ -14,7 +14,7 @@ spec:
   source:
     # Specify path to your application configs
     path: kyverno/argocd/policies
-    repoURL: git@github.com:yreinhardt/argo-kyverno.git
+    repoURL: https://github.com/yreinhardt/argo-kyverno.git
     targetRevision: HEAD
   syncPolicy:
     automated:
