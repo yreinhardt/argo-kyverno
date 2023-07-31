@@ -1,0 +1,7 @@
+---
+global:
+  image:
+    tag: "v2.7.9" # set to actual image (https://github.com/argoproj/argo-cd/releases)
+
+server:
+  insecure: true
