@@ -1,0 +1,39 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: policies-prj
+  namespace: argocd
+  # Enable cascading deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for kyverno
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: monitoring-prj
+  namespace: argocd
+  # Enable cascading deletes
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  description: Project for prometheus
+  # Allow manifests to deploy from any Git repos
+  sourceRepos:
+  - '*'
+  destinations:
+  - namespace: '*'
+    server: '*'
+  clusterResourceWhitelist:
+  - group: '*'
+    kind: '*'
