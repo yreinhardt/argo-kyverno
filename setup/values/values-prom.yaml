@@ -1,0 +1,27 @@
+prometheus:
+  prometheusSpec:
+    #serviceMonitorSelectorNilUsesHelmValues: false
+    #serviceMonitorSelector: {}
+    #serviceMonitorNamespaceSelector: {}
+    scrapeTimeout: "90s"
+    scrapeInterval: "90s"
+    # https://stackoverflow.com/questions/57925786/add-scrape-configs-to-prometheus-using-helm
+    # https://github.com/prometheus-operator/prometheus-operator/pull/5659
+    additionalScrapeConfigs: |
+      - job_name: kyverno-metrics
+        static_configs: 
+          - targets: ["kyverno-svc-metrics.kyverno.svc.cluster.local:8000"]
+    # example multiple jobs
+    # additionalScrapeConfigs: |
+    #   - job_name: kyverno1
+    #     static_configs:
+    #       - targets:
+    #         - kyverno-svc-metrics.kyverno.svc.cluster.local:8000
+    #   - job_name: kyverno-metrics
+    #     static_configs: 
+    #       - targets: ["kyverno-svc-metrics.kyverno.svc.cluster.local:8000"]
+    
+grafana:
+  sidecar:
+    datasources:
+      defaultDatasourceEnabled: true

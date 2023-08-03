@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: prometheus
+  namespace: argocd
+spec:
+  destination:
+    namespace: monitoring
+    server: https://kubernetes.default.svc
+  project: monitoring-prj
+  source:
+    chart: kube-prometheus-stack
+    repoURL: https://prometheus-community.github.io/helm-charts
+    # https://artifacthub.io/packages/helm/prometheus-community/kube-prometheus-stack
+    targetRevision: 48.2.3 
+    helm:
+      # Helm values files for overriding values in the helm chart
+      # The path is relative to the spec.source.path directory defined above
+      # value file from external git repo
+      valueFiles:
+      - $values/setup/values/values-prom.yaml
+    ref: values
+    repoURL: https://github.com/yreinhardt/argo-kyverno.git
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - Replace=true
